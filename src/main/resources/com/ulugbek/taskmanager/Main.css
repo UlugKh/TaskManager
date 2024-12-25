@@ -1,0 +1,10 @@
+.root {
+    -fx-font-family: "Arial";
+}
+#taskTable {
+    -fx-border-color: lightgray;
+}
+#statusLabel {
+    -fx-background-color: lightblue;
+    -fx-padding: 5px;
+}
