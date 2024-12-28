@@ -62,7 +62,11 @@ public class MainViewController {
                 // convert into respective types for Task object creation
                 TaskStatus status = null;
                 try {
-                    status = TaskStatus.valueOf(tempStatus.toUpperCase());
+                    if(tempStatus.equalsIgnoreCase("INPROGRESS")) {
+                        status = TaskStatus.IN_PROGRESS;
+                    } else {
+                        status = TaskStatus.valueOf(tempStatus.toUpperCase());
+                    }
                 } catch (IllegalArgumentException e) {
                     System.out.println("Invalid status value for task ID " + ID + ": " + tempStatus);
                     status = TaskStatus.PENDING; // default is PENDING
