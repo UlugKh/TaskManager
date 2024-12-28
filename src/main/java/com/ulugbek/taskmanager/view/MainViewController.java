@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -42,7 +43,7 @@ public class MainViewController {
         taskNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         taskIDColumn.setCellValueFactory(new PropertyValueFactory<>("taskID"));
         taskStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        taskDueDateColumn.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+        taskDueDateColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDueDate"));
 
         ObservableList<Task> taskList = FXCollections.observableArrayList();
         String sql = "SELECT ID, Name, [Due Date], Status FROM Tasks";
