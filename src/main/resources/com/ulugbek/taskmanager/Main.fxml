@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@Main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@Main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ulugbek.taskmanager.view.MainViewController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -52,9 +51,10 @@
    <center>
       <TableView fx:id="taskTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="201.0" text="Task Name" />
-            <TableColumn prefWidth="116.0" text="Status" />
-          <TableColumn minWidth="0.0" prefWidth="134.0" text="Due Date" />
+          <TableColumn fx:id="taskNameColumn" prefWidth="263.0" text="Task Name" />
+            <TableColumn fx:id="taskIDColumn" prefWidth="112.0" text="Task ID" />
+            <TableColumn fx:id="taskStatusColumn" prefWidth="93.0" text="Status" />
+          <TableColumn fx:id="taskDueDateColumn" minWidth="0.0" prefWidth="230.0" text="Due Date" />
         </columns>
       </TableView>
    </center>
