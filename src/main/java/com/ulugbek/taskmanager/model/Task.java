@@ -7,7 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
+
+import static com.ulugbek.taskmanager.util.IDGenerator.generateCustomID;
 
 public class Task {
     //using properties since working with a database and a tableview in fxml
@@ -18,7 +19,7 @@ public class Task {
     private final SimpleIntegerProperty urgency; //implement sort by urgency
 
     public Task(String name, TaskStatus status, Date dueDate) {
-        this.taskID = new SimpleStringProperty(generateID());
+        this.taskID = new SimpleStringProperty(generateCustomID());
         this.name = new SimpleStringProperty(name);
         this.status = new SimpleStringProperty(status.toString());
         this.dueDate = new SimpleObjectProperty<>(dueDate);
@@ -34,10 +35,6 @@ public class Task {
     }
 
     //when making an add method, validate the date! SQLite has a specific way to store it (yyyy-mm-dd)
-
-    private String generateID() {
-        return UUID.randomUUID().toString(); // Generate a random unique ID
-    }
 
     public String getName() {
         return name.get();

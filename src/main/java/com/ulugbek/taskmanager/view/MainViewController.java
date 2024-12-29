@@ -1,5 +1,6 @@
 package com.ulugbek.taskmanager.view;
 
+import com.ulugbek.taskmanager.controller.TaskController;
 import com.ulugbek.taskmanager.model.Task;
 import com.ulugbek.taskmanager.model.datatypes.TaskStatus;
 import javafx.collections.FXCollections;
@@ -19,6 +20,10 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.ulugbek.taskmanager.util.DatabaseConnection.getConnection;
+import static com.ulugbek.taskmanager.util.DateUtil.toDate;
+import static com.ulugbek.taskmanager.util.StatusUtil.toStatusEnum;
 
 public class MainViewController {
     public Scene scene;
@@ -49,7 +54,7 @@ public class MainViewController {
         String sql = "SELECT ID, Name, [Due Date], Status FROM Tasks";
 
         //connection with database
-        try(Connection conn = DriverManager.getConnection("jdbc:sqlite:D:\\IntelijIDEA\\TaskManager\\src\\main\\resources\\com\\ulugbek\\taskmanager\\tasksDatabase.db");
+        try(Connection conn = getConnection();
             Statement stm = conn.createStatement();
             ResultSet resSet = stm.executeQuery(sql);)
         {
@@ -61,31 +66,10 @@ public class MainViewController {
                 String tempStatus = resSet.getString("Status");
 
                 // convert into respective types for Task object creation
-                TaskStatus status = null;
-                try {
-                    if(tempStatus.equalsIgnoreCase("INPROGRESS")) {
-                        status = TaskStatus.IN_PROGRESS;
-                    } else {
-                        status = TaskStatus.valueOf(tempStatus.toUpperCase());
-                    }
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid status value for task ID " + ID + ": " + tempStatus);
-                    status = TaskStatus.PENDING; // default is PENDING
-                }
+                TaskStatus status = toStatusEnum(tempStatus);
+                Date dueDate = toDate(tempDueDate);
 
-                Date dueDate = null;
-                if (tempDueDate != null && !tempDueDate.isEmpty()) {
-                    try {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        dueDate = dateFormat.parse(tempDueDate);
-                    } catch (Exception e) {
-                        System.out.println("Invalid date format for task ID " + ID + ": " + tempDueDate);
-                    }
-                }
-
-                assert dueDate != null;
                 taskList.add(new Task(name, status, dueDate, ID));
-
             }
 
         } catch (SQLException e) {
