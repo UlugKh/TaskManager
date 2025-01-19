@@ -5,30 +5,33 @@ import com.ulugbek.taskmanager.model.Task;
 import com.ulugbek.taskmanager.model.datatypes.TaskStatus;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 
+import java.io.IOException;
 import java.sql.*;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Optional;
 
 import static com.ulugbek.taskmanager.util.DatabaseConnection.getConnection;
 import static com.ulugbek.taskmanager.util.DateUtil.toDate;
 import static com.ulugbek.taskmanager.util.StatusUtil.toStatusEnum;
 
 public class MainViewController {
+    TaskController taskController;
     public Scene scene;
     public Stage stage;
 
+    @FXML
+    private Button addTaskButton;
     @FXML
     private TableView<Task> taskTable;
     @FXML
@@ -53,7 +56,7 @@ public class MainViewController {
         ObservableList<Task> taskList = FXCollections.observableArrayList();
         String sql = "SELECT ID, Name, [Due Date], Status FROM Tasks";
 
-        //connection with database
+        //display database values in the taskList
         try(Connection conn = getConnection();
             Statement stm = conn.createStatement();
             ResultSet resSet = stm.executeQuery(sql);)
@@ -76,5 +79,18 @@ public class MainViewController {
             System.out.print(e.getMessage());
         }
         taskTable.setItems(taskList);
+    }
+
+    @FXML
+    public void handleAddTask() throws IOException {
+        //show the add fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(("/com/ulugbek/taskmanager/AddTask.fxml")));
+        Scene scene = new Scene(loader.load());
+        Stage addStage = new Stage();
+        addStage.setTitle("Add Task");
+        addStage.setScene(scene);
+        addStage.show();
+
+
     }
 }

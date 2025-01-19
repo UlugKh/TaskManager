@@ -9,14 +9,13 @@ import java.util.Date;
 import java.util.List;
 
 public class TaskController {
-    private final TaskDAO taskDAO;
+    private static TaskDAO taskDAO;
 
     public TaskController() {
         this.taskDAO = new TaskDAO();
     }
 
-    public void addTask(String name, TaskStatus status, Date dueDate) {
-        Task newTask = new Task(name, status, dueDate);
+    public void addTask(Task newTask) {
         try{
             taskDAO.addTask(newTask);
             System.out.print("Task added to database: " + newTask.getName() + "\n");
@@ -51,5 +50,8 @@ public class TaskController {
             System.out.print("Error updating task " + task.getName() + " " + e.getMessage() + "\n");
         }
 
+    }
+
+    public void addTask(Object task) {
     }
 }

@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@Main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ulugbek.taskmanager.view.MainViewController">
    <top>
@@ -37,15 +38,57 @@
       </MenuBar>
    </top>
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="All Tasks" />
-            <Button mnemonicParsing="false" text="Completed" />
-            <Button mnemonicParsing="false" text="Pending" />
+            <VBox prefHeight="167.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="101.0" text="Edit" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="addTaskButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddTask" text="Add task" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" text="Delete task" />
+                  <Button mnemonicParsing="false" text="Update task" />
+               </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="101.0" text="Sort" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <Button alignment="CENTER" mnemonicParsing="false" text="All Tasks" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" text="Completed" />
+                  <Button mnemonicParsing="false" text="Pending" />
+               </children>
+               <VBox.margin>
+                  <Insets top="1.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </VBox>
          </children>
-         <padding>
-            <Insets top="10.0" />
-         </padding>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </VBox>
    </left>
    <center>

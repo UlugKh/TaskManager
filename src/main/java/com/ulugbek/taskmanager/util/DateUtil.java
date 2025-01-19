@@ -2,6 +2,10 @@ package com.ulugbek.taskmanager.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class DateUtil {
@@ -27,5 +31,12 @@ public class DateUtil {
     public static Date createDate(int year, int month, int day, int hour, int minute) throws ParseException {
         SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return dateFormat1.parse(year + "-" + month + "-" + day + " " + hour + ":" + minute);
+    }
+
+    public static Date retrieveUserInputDate(LocalDate selectedDate, int hour, int minute) {
+        //combine local date and time
+        LocalDateTime localDateTime = LocalDateTime.of(selectedDate, LocalTime.of(hour, minute));
+        //convert to Date and return
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 }
