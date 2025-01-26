@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.ulugbek.taskmanager.util.IDGenerator.generateCustomID;
+import static com.ulugbek.taskmanager.util.StatusUtil.fromStatusEnum;
 
 public class Task {
     //using properties since working with a database and a tableview in fxml
@@ -21,7 +22,7 @@ public class Task {
     public Task(String name, TaskStatus status, Date dueDate) {
         this.taskID = new SimpleStringProperty(generateCustomID());
         this.name = new SimpleStringProperty(name);
-        this.status = new SimpleStringProperty(status.toString());
+        this.status = new SimpleStringProperty(fromStatusEnum(status));
         this.dueDate = new SimpleObjectProperty<>(dueDate);
         this.urgency = new SimpleIntegerProperty(1); //urgency default 1
     }
@@ -29,12 +30,11 @@ public class Task {
     public Task(String name, TaskStatus status, Date dueDate, String taskID) {
         this.taskID = new SimpleStringProperty(taskID);
         this.name = new SimpleStringProperty(name);
-        this.status = new SimpleStringProperty(status.toString());
+        this.status = new SimpleStringProperty(fromStatusEnum(status));
         this.dueDate = new SimpleObjectProperty<>(dueDate);
         this.urgency = new SimpleIntegerProperty(1); //urgency default 1
     }
 
-    //when making an add method, validate the date! SQLite has a specific way to store it (yyyy-mm-dd)
 
     public String getName() {
         return name.get();

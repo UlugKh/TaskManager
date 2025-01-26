@@ -3,10 +3,13 @@ package com.ulugbek.taskmanager.view;
 import com.ulugbek.taskmanager.controller.TaskController;
 import com.ulugbek.taskmanager.model.Task;
 import com.ulugbek.taskmanager.model.datatypes.TaskStatus;
-import com.ulugbek.taskmanager.util.alertClass;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.scene.Node;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -36,9 +39,16 @@ public class AddTaskViewController {
     @FXML
     private Button okButton;
 
+    private ObservableList taskList;
+
+    public void setTaskList(ObservableList taskList) {
+        this.taskList = taskList;
+    }
     @FXML
     public void initialize() {
         statusComboBox.getItems().addAll("Pending", "In Progress", "Completed");
+        statusComboBox.setValue("Pending");
+        dueDateDatePicker.setValue(LocalDate.now());
         advancedUrgencyVBox.setVisible(false);
         hourSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12));
         minuteSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0));
@@ -52,9 +62,9 @@ public class AddTaskViewController {
     }
 
     @FXML
-    public void handleAddTaskButton() {
+    public void handleAddTaskButton(ActionEvent event) {
         //if required fields empty, receive alert
-        if(taskNameTextField.getText()==null) {
+        if(taskNameTextField.getText()==null || taskNameTextField.getText().isEmpty()) {
             showAlert("Error", "Required Field is Empty", "Please fill out all required (*) fields");
         } else {
             //add task
@@ -65,9 +75,15 @@ public class AddTaskViewController {
             String taskName = taskNameTextField.getText();
             TaskStatus taskStatus = toStatusEnum(statusComboBox.getValue());
 
-            controller.addTask(new Task(taskName, taskStatus, dueDate));
+            Task tempTask = new Task(taskName, taskStatus, dueDate);
+
+            controller.addTask(tempTask);
+            taskList.add(tempTask);
 
             showAlert("Success", "Task Added", "The task is added successfully!");
+            //close the fxml after adding
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
         }
     }
 

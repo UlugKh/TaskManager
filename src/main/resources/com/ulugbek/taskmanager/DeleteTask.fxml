@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="151.0" prefWidth="192.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ulugbek.taskmanager.view.DeleteTaskViewController">
+   <children>
+      <TextField fx:id="IDTextField" layoutX="15.0" layoutY="62.0" prefHeight="25.0" prefWidth="161.0" />
+      <Button fx:id="okButton" layoutX="14.0" layoutY="106.0" mnemonicParsing="false" onAction="#deleteTaskButton" text="OK" />
+      <Label layoutX="17.0" layoutY="23.0" text="Task ID*" />
+   </children>
+</AnchorPane>

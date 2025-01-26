@@ -19,6 +19,7 @@ public class TaskDAO {
     private static final String SELECT_ALL_TASKS = "SELECT * FROM Tasks";
     private static final String DELETE_TASK = "DELETE FROM Tasks WHERE ID = ?";
     private static final String UPDATE_TASK = "UPDATE Tasks SET Name = ?, Urgency = ?, [Due Date] = ?, Status = ? WHERE ID = ?";
+    private static final String FIND_TASK = "SELECT * FROM Tasks WHERE ID = ?";
 
     public void addTask(Task task) throws SQLException {
         try(Connection conn = getConnection();
@@ -56,12 +57,23 @@ public class TaskDAO {
         return tasks;
     }
 
+    //returns boolean to see if ID exists
     public void deleteTask(String TaskID) throws SQLException {
         try(Connection conn = getConnection();
             PreparedStatement stm = conn.prepareStatement(DELETE_TASK))
         {
             stm.setString(1, TaskID);
             stm.executeUpdate();
+        }
+    }
+
+    public boolean exists(String TaskID) throws SQLException{
+        try(Connection conn = getConnection();
+            PreparedStatement stm = conn.prepareStatement(FIND_TASK))
+        {
+            stm.setString(1, TaskID);
+            ResultSet rs = stm.executeQuery();
+            return rs.next();
         }
     }
 
@@ -77,4 +89,61 @@ public class TaskDAO {
             stm.executeUpdate();
         }
     }
+    public Task selectTask(String TaskID) throws SQLException {
+        try (Connection conn = getConnection();
+             PreparedStatement stm = conn.prepareStatement(FIND_TASK)) {
+            //find task with ID and assign to result set
+            ResultSet rs = stm.executeQuery();
+            //create a Task object
+            if (!rs.next()) {
+                System.out.print("rs is null");
+                return null;
+            } else {
+                System.out.print("rs is not null");
+            }
+            Task tempTask = null;
+            if(rs.next()) {
+                String name = rs.getString("Name");
+                String id = rs.getString("ID");
+                String tempduedate = rs.getString("Due Date");
+                String tempstatus = rs.getString("Status");
+
+                Date duedate = toDate(tempduedate);
+                TaskStatus status = toStatusEnum(tempstatus);
+
+                tempTask = new Task(name, status, duedate, id);
+                tempTask.setUrgency(rs.getInt("Urgency"));
+            }
+            return tempTask;
+        }
+    }
+
+    /*public Task selectTask(String TaskID) throws SQLException{
+        try(Connection conn = getConnection();
+            PreparedStatement stm = conn.prepareStatement(FIND_TASK))
+        {
+            //find task with ID and assign to result set
+            stm.setString(1, TaskID);
+            ResultSet rs = stm.executeQuery();
+            //create a Task object
+            if (!rs.next()) {
+                System.out.print("rs is null");
+                return null;
+            }
+            String name = rs.getString("Name");
+            String id = rs.getString("ID");
+            String tempduedate = rs.getString("Due Date");
+            String tempstatus = rs.getString("Status");
+
+            Date duedate = toDate(tempduedate);
+            TaskStatus status = toStatusEnum(tempstatus);
+
+            Task tempTask = new Task(name, status, duedate, id);
+            tempTask.setUrgency(rs.getInt("Urgency"));
+
+            return tempTask;
+        }
+    }*/
+
+
 }

@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -33,6 +34,8 @@ public class MainViewController {
     @FXML
     private Button addTaskButton;
     @FXML
+    private Button deleteTaskButton;
+    @FXML
     private TableView<Task> taskTable;
     @FXML
     private TableColumn<Task, String> taskNameColumn;
@@ -46,6 +49,8 @@ public class MainViewController {
     @FXML
     private Label statusLabel;
 
+    private ObservableList<Task> taskList;
+
     public void initialize() {
         //link each column in the table to the respective Task property
         taskNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -53,7 +58,9 @@ public class MainViewController {
         taskStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         taskDueDateColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDueDate"));
 
+        //needed to show the dynamic changes to the database in the UI
         ObservableList<Task> taskList = FXCollections.observableArrayList();
+        this.taskList = taskList;
         String sql = "SELECT ID, Name, [Due Date], Status FROM Tasks";
 
         //display database values in the taskList
@@ -84,13 +91,32 @@ public class MainViewController {
     @FXML
     public void handleAddTask() throws IOException {
         //show the add fxml
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(("/com/ulugbek/taskmanager/AddTask.fxml")));
-        Scene scene = new Scene(loader.load());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ulugbek/taskmanager/AddTask.fxml"));
+        Parent root = loader.load();
+        //pass the observable
+        AddTaskViewController addTaskViewController = loader.getController();
+        addTaskViewController.setTaskList(taskList);
+        //show
+        Scene scene = new Scene(root);
         Stage addStage = new Stage();
         addStage.setTitle("Add Task");
         addStage.setScene(scene);
         addStage.show();
+    }
 
-
+    @FXML
+    public void handleDeleteTask() throws IOException{
+        //show the delete fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ulugbek/taskmanager/DeleteTask.fxml"));
+        Parent root = loader.load();
+        //pass the observable
+        DeleteTaskViewController deleteTaskViewController = loader.getController();
+        deleteTaskViewController.setTaskList(taskList);
+        //show
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Delete Task");
+        stage.setScene(scene);
+        stage.show();
     }
 }
