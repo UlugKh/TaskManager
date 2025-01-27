@@ -35,9 +35,9 @@ public class TaskController {
     //returns boolean to know if ID deleted
     public void deleteTask(String taskID) {
         try{
-           taskDAO.deleteTask(taskID);
             if (taskDAO.exists(taskID)) {
                 System.out.print("Task with ID" + taskID + " successfully deleted" + "\n");
+                taskDAO.deleteTask(taskID);
             } else {
                 System.out.print("Task with ID " + taskID + " was not deleted" + "\n");
             }
@@ -50,7 +50,7 @@ public class TaskController {
         try{
             return taskDAO.exists(taskID);
         } catch (SQLException e) {
-            System.out.print("SQL error checking existance of task with ID" + taskID + ". " + e.getMessage() + "\n");
+            System.out.print("SQL error checking existence of task with ID" + taskID + ". " + e.getMessage() + "\n");
             return false;
         }
     }
@@ -63,14 +63,5 @@ public class TaskController {
             System.out.print("Error updating task " + task.getName() + " " + e.getMessage() + "\n");
         }
 
-    }
-
-    public Task selectTask(String taskID) {
-        try{
-            return taskDAO.selectTask(taskID);
-        } catch (SQLException e) {
-            System.out.print("Error selecting task with ID " + taskID+ " " + e.getMessage() + "\n");
-            return null;
-        }
     }
 }

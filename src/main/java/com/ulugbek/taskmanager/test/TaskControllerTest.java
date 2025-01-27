@@ -13,6 +13,7 @@ public class TaskControllerTest {
         // Create and add tasks
         taskController.addTask(new Task("Task 1", TaskStatus.PENDING, new Date()));
         taskController.addTask(new Task("Task 2", TaskStatus.COMPLETED, new Date()));
+        taskController.addTask(new Task("Task 3", TaskStatus.IN_PROGRESS, new Date()));
 
         // Fetch and display tasks
         taskController.getAllTasks().forEach(task -> {

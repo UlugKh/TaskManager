@@ -20,7 +20,7 @@ public class DeleteTaskViewController {
     @FXML
     private Button okButton;
 
-    private ObservableList taskList;
+    private ObservableList<Task> taskList;
 
 
     public void setTaskList(ObservableList taskList) {
@@ -36,9 +36,14 @@ public class DeleteTaskViewController {
         if(IDTextField.getText() == null || IDTextField.getText().isEmpty()) {
             showAlert("Error", "ID is required", "Task ID was not provided");
         } else {
-            String taskID = IDTextField.getText();
-            if (taskController.exists(taskID)) {
-                taskList.remove(taskController.selectTask(taskID));
+            String taskID = IDTextField.getText().toUpperCase();
+            boolean exists = taskController.exists(taskID);
+            if (exists) {
+                Task taskToRemove = taskList.stream()
+                        .filter(task -> task.getTaskID().equals(taskID))
+                        .findFirst()
+                        .orElse(null);
+                taskList.remove(taskToRemove);
                 taskController.deleteTask(taskID);
                 showAlert("Success", "Task Deleted", "Task with ID " + taskID + " deleted successfully");
                 Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

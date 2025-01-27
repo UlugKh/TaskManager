@@ -39,7 +39,7 @@ public class AddTaskViewController {
     @FXML
     private Button okButton;
 
-    private ObservableList taskList;
+    private ObservableList<Task> taskList;
 
     public void setTaskList(ObservableList taskList) {
         this.taskList = taskList;
