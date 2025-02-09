@@ -65,7 +65,7 @@ public class Task {
     }
 
     public void setStatus(TaskStatus status) {
-        this.status.set(status.toString());
+        this.status.set(fromStatusEnum(status));
     }
 
     public SimpleStringProperty statusProperty() {

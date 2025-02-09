@@ -64,4 +64,15 @@ public class TaskController {
         }
 
     }
+
+    public Task retrieveTask(String taskID) {
+        try{
+            Task task = taskDAO.retrieveTask(taskID);
+            System.out.print("Task retrieved successfully\n");
+            return task;
+        } catch (SQLException e) {
+            System.out.print("Error updating task with ID" + taskID + " " + e.getMessage() + "\n");
+            return null;
+        }
+    }
 }

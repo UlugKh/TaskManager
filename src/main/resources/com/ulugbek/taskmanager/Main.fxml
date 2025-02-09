@@ -55,7 +55,7 @@
                   </Label>
                   <Button fx:id="addTaskButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddTask" text="Add task" textAlignment="CENTER" />
                   <Button fx:id="deleteTaskButton" mnemonicParsing="false" onAction="#handleDeleteTask" text="Delete task" />
-                  <Button mnemonicParsing="false" text="Update task" />
+                  <Button fx:id="UpdateTaskButton" mnemonicParsing="false" onAction="#handleUpdateTask" text="Update task" />
                </children>
                <padding>
                   <Insets top="5.0" />

@@ -119,4 +119,20 @@ public class MainViewController {
         stage.setScene(scene);
         stage.show();
     }
+
+    @FXML
+    public void handleUpdateTask() throws IOException{
+        //show the update fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ulugbek/taskmanager/UpdateTask.fxml"));
+        Parent root = loader.load();
+        //pass the observable
+        UpdateTaskViewController updateTaskViewController = loader.getController();
+        updateTaskViewController.setTaskList(taskList);
+        //show
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Update Task");
+        stage.setScene(scene);
+        stage.show();
+    }
 }

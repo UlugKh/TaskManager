@@ -76,6 +76,27 @@ public class TaskDAO {
         }
     }
 
+    public Task retrieveTask(String TaskID) throws SQLException {
+        try (Connection conn = getConnection();
+             PreparedStatement stm = conn.prepareStatement(FIND_TASK)) {
+            stm.setString(1, TaskID);
+            ResultSet rs = stm.executeQuery();
+
+            String name = rs.getString("Name");
+            String id = rs.getString("ID");
+            String tempduedate = rs.getString("Due Date");
+            String tempstatus = rs.getString("Status");
+
+            Date duedate = toDate(tempduedate);
+            TaskStatus status = toStatusEnum(tempstatus);
+
+            Task tempTask = new Task(name, status, duedate, id);
+            tempTask.setUrgency(rs.getInt("Urgency"));
+
+            return tempTask;
+        }
+    }
+
     public void updateTask(Task task) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement stm = conn.prepareStatement(UPDATE_TASK)) {
